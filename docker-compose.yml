@@ -37,8 +37,6 @@ services:
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:-laravel}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-root}
-      MYSQL_USER: ${DB_USERNAME:-root}
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
@@ -47,6 +45,26 @@ services:
       - laravel-network
     ports:
       - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: password-manager-pma
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - "8080:80"
+    networks:
+      - laravel-network
+    depends_on:
+      - db
 
 networks:
   laravel-network:
