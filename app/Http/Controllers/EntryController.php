@@ -148,6 +148,16 @@ class EntryController extends Controller
             abort(403);
         }
 
+        $request->validate([
+            'pin' => 'required|digits:4',
+        ]);
+
+        $user = Auth::user();
+
+        if (!$user->user_pin || !\Illuminate\Support\Facades\Hash::check($request->pin, $user->user_pin)) {
+            return response()->json(['error' => 'Invalid PIN'], 403);
+        }
+
         $keyBase64 = Session::get('encryption_key');
         if (!$keyBase64) {
             return response()->json(['error' => 'Session expired'], 401);

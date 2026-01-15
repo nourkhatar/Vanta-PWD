@@ -18,10 +18,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'email',
         'username',
         'password',
         'enc_salt',
+        'user_pin',
     ];
 
     /**
@@ -33,6 +34,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'enc_salt', // Good practice to hide internal security params
+        'user_pin',
     ];
 
     /**

@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [EntryController::class, 'index'])->name('dashboard');
     Route::post('/entries', [EntryController::class, 'store'])->name('entries.store');
     Route::delete('/entries/{entry}', [EntryController::class, 'destroy'])->name('entries.destroy');
-    Route::get('/entries/{entry}/decrypt', [EntryController::class, 'decrypt'])->name('entries.decrypt');
+    Route::post('/entries/{entry}/decrypt', [EntryController::class, 'decrypt'])->name('entries.decrypt');
     
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');

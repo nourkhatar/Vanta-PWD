@@ -18,19 +18,21 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'user_pin' => 'required|digits:4|confirmed',
         ]);
 
         // Cryptographically secure salt
         $encSalt = bin2hex(random_bytes(32));
 
         $user = User::create([
-            'name' => $request->name,
+            'email' => $request->email,
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'enc_salt' => $encSalt,
+            'user_pin' => Hash::make($request->user_pin),
         ]);
 
         // Auto login

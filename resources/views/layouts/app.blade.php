@@ -32,7 +32,7 @@
                     </a>
                 </div>
                 <div class="user-info">
-                    <span class="user-name">{{ Auth::user()->name }}</span>
+                    <span class="user-name">{{ Auth::user()->username }}</span>
                     <div class="status-indicator">
                         <span class="status-dot"></span> SECURE
                     </div>

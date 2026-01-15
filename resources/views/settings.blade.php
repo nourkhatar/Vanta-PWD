@@ -27,9 +27,9 @@
         @method('PUT')
 
         <div class="form-group">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" id="name" name="name" class="form-control" value="{{ old('name', auth()->user()->name) }}" required>
-            @error('name')
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" name="username" class="form-control" value="{{ old('username', auth()->user()->username) }}" required>
+            @error('username')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
@@ -40,6 +40,19 @@
             @error('email')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="form-label">New Password</label>
+            <input type="password" id="password" name="password" class="form-control">
+            @error('password')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="password_confirmation" class="form-label">Confirm New Password</label>
+            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control">
         </div>
 
         <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">

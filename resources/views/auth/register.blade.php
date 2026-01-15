@@ -12,9 +12,9 @@
             @csrf
 
             <div class="form-group">
-                <label for="name" class="form-label">FULL NAME</label>
-                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus autocomplete="name">
-                @error('name')
+                <label for="email" class="form-label">EMAIL</label>
+                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus autocomplete="email">
+                @error('email')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
@@ -41,6 +41,19 @@
             </div>
 
             <div class="form-group">
+                <label for="user_pin" class="form-label">SECURITY PIN (4 digits)</label>
+                <input id="user_pin" type="password" class="form-control" name="user_pin" inputmode="numeric" maxlength="4" required>
+                @error('user_pin')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="user_pin_confirmation" class="form-label">CONFIRM SECURITY PIN</label>
+                <input id="user_pin_confirmation" type="password" class="form-control" name="user_pin_confirmation" inputmode="numeric" maxlength="4" required>
+            </div>
+
+            <div class="form-group">
                 <button type="submit" class="btn btn-primary" style="width: 100%;">
                     ESTABLISH LINK
                 </button>
@@ -54,4 +67,41 @@
         </form>
     </div>
 </div>
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form[action="{{ route('register') }}"]');
+        const pinInput = document.getElementById('user_pin');
+        const pinConfirmInput = document.getElementById('user_pin_confirmation');
+
+        function sanitizePinInput(e) {
+            const cleaned = e.target.value.replace(/\D/g, '').slice(0, 4);
+            if (e.target.value !== cleaned) {
+                e.target.value = cleaned;
+            }
+        }
+
+        pinInput.addEventListener('input', sanitizePinInput);
+        pinConfirmInput.addEventListener('input', sanitizePinInput);
+
+        form.addEventListener('submit', function (e) {
+            const pin = pinInput.value.trim();
+            const pinConfirm = pinConfirmInput.value.trim();
+
+            const isNumeric = /^\d{4}$/.test(pin);
+
+            if (!isNumeric) {
+                e.preventDefault();
+                alert('PIN must be exactly 4 numeric digits.');
+                return;
+            }
+
+            if (pin !== pinConfirm) {
+                e.preventDefault();
+                alert('PIN and confirmation PIN must match.');
+            }
+        });
+    });
+</script>
+@endpush
 @endsection
