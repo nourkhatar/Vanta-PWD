@@ -8,7 +8,7 @@
             <p style="color: var(--text-muted); font-size: 0.9rem;">NEW IDENTITY</p>
         </div>
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register') }}" id="register-form">
             @csrf
 
             <div class="form-group">
@@ -70,7 +70,7 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const form = document.querySelector('form[action="{{ route('register') }}"]');
+        const form = document.getElementById('register-form');
         const pinInput = document.getElementById('user_pin');
         const pinConfirmInput = document.getElementById('user_pin_confirmation');
 
